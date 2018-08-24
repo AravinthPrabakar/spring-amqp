@@ -1,4 +1,3 @@
-# spring-amqp
 # This is solution for worker/job processing(with message listener) queue using spring amqp - rabbitmq 
 # Simple Example for Producer/Consumer using RabbitMQ - Spring AMQP.
 2 Projects are added in the repository.
