@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:int="http://www.springframework.org/schema/integration"
+  xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+  xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans.xsd 
+  http://www.springframework.org/schema/integration 
+  http://www.springframework.org/schema/integration/spring-integration.xsd 
+  http://www.springframework.org/schema/integration/amqp 
+  http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context.xsd 
+  http://www.springframework.org/schema/rabbit 
+  http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+
+	<!-- Configuration for Component Scan -->
+	<context:component-scan base-package="com.tegile.icare" />
+	
+	<context:property-placeholder location="classpath*:amqp.properties"/>
+	
+	<!--  Jobs queue configurations 
+		  RabbitMQ Connection Factory -->
+
+	<rabbit:connection-factory id="jobsQueueConnectionFactory" cache-mode="CONNECTION" addresses="${rabbitmq.addresses}"  channel-cache-size="10" username="${rabbitmq.username}" password="${rabbitmq.password}" />
+	<rabbit:admin connection-factory="jobsQueueConnectionFactory" />
+	<rabbit:template id="amqpTemplate" connection-factory="jobsQueueConnectionFactory" channel-transacted="true" exchange="${jobs.exchange}" routing-key="${jobs.routingkey}"/>
+	
+</beans>
